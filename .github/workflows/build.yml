@@ -1,0 +1,31 @@
+name: Build EXE for Windows
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install pyinstaller requests
+
+    - name: Build with PyInstaller
+      run: |
+        pyinstaller --onefile --noconsole --add-data "troll.mp3;." bot_win.py
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: troll-bot-exe
+        path: dist/bot_win.exe
