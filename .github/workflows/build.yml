@@ -8,16 +8,16 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.9'
 
     - name: Install dependencies
       run: |
-        pip install --upgrade pip
+        python -m pip install --upgrade pip
         pip install pyinstaller requests
 
     - name: Build with PyInstaller
@@ -25,7 +25,7 @@ jobs:
         pyinstaller --onefile --noconsole --add-data "troll.mp3;." bot_win.py
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: troll-bot-exe
         path: dist/bot_win.exe
